@@ -21,9 +21,7 @@ function App() {
   ];
 
   return (
-    <Card>
-      <ExpensesList expenses={expenses} />
-    </Card>
+    <ExpensesList expenses={expenses} />
   );
 }
 
