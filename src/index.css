@@ -5,15 +5,16 @@
 }
 
 :root {
-  --color-primary: #e63946;
-  --color-secondary: #a8dadc;
-  --color-heading: #1d3557;
+  --color-primary: #0d1b2a;
+  --color-secondary: #1b263b;
+  --color-heading: #e0e1dd;
   --color-body: #457b9d;
 }
 
 ::selection {
-  background: var(--color-primary);
+  background: var(--color-body);
   color: #fff;
+  border-radius: 15px;
 }
 
 html {

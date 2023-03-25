@@ -1,7 +1,8 @@
 import Icon from "./Icon";
 import "./Input.css";
 
-const Input = ({ name, value, label, placeholder, icon }) => {
+const Input = ({ name, value, label, onChange, type = "text", placeholder = "", icon }) => {
+
     return (
         <div className="input-group">
             <label
@@ -16,14 +17,16 @@ const Input = ({ name, value, label, placeholder, icon }) => {
                     <span className="group-input__icon">
                         <Icon icon={icon} />
                     </span>
+
                 )}
                 <input
-                    type="text"
+                    type={type}
                     id={name}
                     name={name}
                     value={value}
                     placeholder={placeholder}
                     className="group-input__input"
+                    onChange={onChange}
                 />
             </div>
         </div>

@@ -1,0 +1,54 @@
+.expense-new {
+    margin-bottom: 1rem;
+    background: var(--color-primary);
+    transition: height 0.5s ease-in;
+}
+
+.expense-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    /* background: var(--color-primary); */
+}
+
+.expense-form-btns {
+    order: 1;
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    outline: 0;
+    width: 20rem;
+    white-space: nowrap;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    font-weight: 400;
+    transition: all 0.2s ease-in;
+    font-size: 2rem;
+    /* margin-top: 2rem; */
+    border: 2px solid var(--color-heading);
+    cursor: pointer;
+}
+
+.btn--add {
+    background: var(--color-heading);
+    color: var(--color-primary);
+}
+
+.btn--add:hover {
+    background: var(--color-secondary);
+    color: var(--color-heading);
+}
+
+.btn--cls {
+    background: var(--color-primary);
+    color: var(--color-heading);
+}
+
+.btn--cls:hover {
+    background: var(--color-heading);
+    color: var(--color-secondary);
+}

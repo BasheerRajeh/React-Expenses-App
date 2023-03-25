@@ -1,10 +1,12 @@
+import { useState } from "react";
+import ExpenseNew from "./components/Expenses/ExpenseNew";
 import ExpensesList from "./components/Expenses/ExpensesList";
 import Card from "./components/shared/Card";
 import Icon from "./components/shared/Icon";
 import Input from "./components/shared/Input";
 
 function App() {
-  const expenses = [
+  const [expenses, setExpenses] = useState([
     {
       title: "Consectetur adipiscing elit.",
       date: new Date(2021, 5, 15),
@@ -20,28 +22,16 @@ function App() {
       date: new Date(2022, 8, 20),
       price: 1000,
     },
-  ];
+  ]);
+
+  const handleAdd = (newExpense) => {
+    setExpenses((prev) => [newExpense, ...prev]);
+  };
 
   return (
     <div>
-      <Input
-        name="expense"
-        value=""
-        placeholder="Enter new expense..."
-        icon={"dollar"}
-      />
-      <Input
-        name="expense"
-        value=""
-        placeholder="Enter new expense..."
-        icon={"calendar"}
-      />
-      <Input
-        name="expense"
-        value=""
-        placeholder="Enter new expense..."
-        icon={"pen"}
-      />
+      <ExpenseNew onAdd={handleAdd} />
+      <ExpensesList expenses={expenses} />
     </div>
   );
 }
