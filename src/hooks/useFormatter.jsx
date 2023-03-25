@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from "moment";
 
 function useFormatter(locale = "en-US") {
     const currencyFormatter = new Intl.NumberFormat(locale, {
@@ -11,8 +11,10 @@ function useFormatter(locale = "en-US") {
     }
 
     function formatDate(date) {
-        const [monthName, year, day] = moment(date).format('MMMM YYYY DD').split(' ');
-        return [monthName, parseInt(year), parseInt(day.slice(0, -1))];
+        const [monthName, year, day] = moment(date)
+            .format("MMMM YYYY DD")
+            .split(" ");
+        return [monthName, year, day];
     }
 
     return { formatCurrency, formatDate };

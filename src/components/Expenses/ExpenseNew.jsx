@@ -7,37 +7,52 @@ import "./ExpenseNew.css";
 const ExpenseNew = ({ onAdd }) => {
     const [buttonClicked, setButtonClicked] = useState(false);
 
-    const [expenseTitle, setExpenseTitle] = useState("");
-    const [expenseAmount, setExpenseAmount] = useState(0);
-    const [expenseDate, setExpenseDate] = useState(
-        moment(new Date()).format("yyyy-MM-DD")
-    );
+    const [expenseTitle, setExpenseTitle] = useState({ value: "" });
+    const [expenseAmount, setExpenseAmount] = useState({ value: 0 });
+    const [expenseDate, setExpenseDate] = useState({
+        value: moment(new Date()).format("yyyy-MM-DD"),
+    });
 
     const clear = () => {
-        setExpenseTitle("");
-        setExpenseAmount("");
-        setExpenseDate(moment(new Date()).format("yyyy-MM-DD"));
+        setExpenseTitle({ error: "" });
+        setExpenseAmount({ error: "" });
+        setExpenseDate({ value: moment(new Date()).format("yyyy-MM-DD") });
     };
 
     const handleClick = (e) => {
         e.preventDefault();
-        if (buttonClicked) {
-            onAdd({ title: expenseTitle, price: expenseAmount, date: expenseDate });
+        if (
+            buttonClicked &&
+            (expenseTitle.value && expenseAmount.value && expenseDate.value)
+        ) {
+            onAdd({
+                title: expenseTitle.value,
+                price: expenseAmount.value,
+                date: expenseDate.value,
+            });
             clear();
         }
+        clear();
         setButtonClicked((prev) => {
             return !prev;
         });
     };
 
     const handleExpenseTitleChanged = (e) => {
-        setExpenseTitle(e.target.value);
+        if (e.target.value.trim() !== "")
+            setExpenseTitle({ value: e.target.value });
+        else {
+            setExpenseTitle({ error: "Expence title can't be an empty value." });
+        }
     };
     const handleExpenseAmountChanged = (e) => {
-        setExpenseAmount(e.target.value);
+        if (e.target.value >= 0) setExpenseAmount({ value: e.target.value });
+        else {
+            setExpenseAmount({ error: "Expense amount can't be a negative value." });
+        }
     };
     const handleExpenseDateChanged = (e) => {
-        setExpenseDate(moment(e.target.value).format("yyyy-MM-DD"));
+        setExpenseDate({ value: moment(e.target.value).format("yyyy-MM-DD") });
     };
 
     const handleClear = () => {
@@ -62,25 +77,29 @@ const ExpenseNew = ({ onAdd }) => {
                     <>
                         <Input
                             name="expense"
-                            value={expenseTitle}
+                            value={expenseTitle.value}
                             placeholder="Enter new expense..."
                             icon={"pen"}
                             onChange={handleExpenseTitleChanged}
+                            error={expenseTitle.error}
                         />
                         <Input
                             type="number"
                             name="expense"
-                            value={expenseAmount}
+                            value={expenseAmount.value}
                             placeholder="Enter expense amount..."
                             icon={"dollar"}
+                            error={expenseAmount.error}
                             onChange={handleExpenseAmountChanged}
+                            min="0"
                         />
                         <Input
                             name="expense"
-                            value={expenseDate}
+                            value={expenseDate.value}
                             type="date"
                             icon={"calendar"}
                             onChange={handleExpenseDateChanged}
+                            error={expenseDate.error}
                         />
                     </>
                 )}

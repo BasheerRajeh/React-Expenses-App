@@ -1,7 +1,8 @@
 .input-group {
     display: flex;
+    flex-direction: column;
     width: 100%;
-    align-items: center;
+    align-items: start;
     justify-content: start;
     margin-bottom: 1rem;
 }
@@ -31,6 +32,10 @@
     box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);
 }
 
+.group-input__input__err {
+    background: rgba(224, 91, 91, 0.382);
+}
+
 .group-input__input::placeholder {
     color: #2323
 }
@@ -40,4 +45,11 @@
     color: var(--color-heading);
     width: 45px;
     height: 45px;
+}
+
+.input__error {
+    color: var(--color-body);
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    overflow: hidden;
 }
