@@ -11,6 +11,11 @@
   --color-body: #457b9d;
 }
 
+::selection {
+  background: var(--color-primary);
+  color: #fff;
+}
+
 html {
   font-size: 62.5%;
 }

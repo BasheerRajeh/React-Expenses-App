@@ -1,0 +1,43 @@
+.input-group {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: start;
+    margin-bottom: 1rem;
+}
+
+.group-input {
+    align-items: center;
+    background: #fff;
+    border-radius: 15px;
+    border: 1px solid var(--color-secondary);
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    width: 100%;
+}
+
+.group-input__input {
+    border: 0;
+    flex-grow: 1;
+    font-size: 2rem;
+    outline: none;
+    padding: 1rem;
+    transition: all 0.1s ease-out;
+    width: 100%;
+}
+
+.group-input__input:focus {
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px rgb(102 175 233 / 60%);
+}
+
+.group-input__input::placeholder {
+    color: #2323
+}
+
+.group-input__icon {
+    display: inline-block;
+    color: var(--color-heading);
+    width: 45px;
+    height: 45px;
+}

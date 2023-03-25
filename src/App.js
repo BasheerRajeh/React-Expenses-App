@@ -1,5 +1,7 @@
 import ExpensesList from "./components/Expenses/ExpensesList";
 import Card from "./components/shared/Card";
+import Icon from "./components/shared/Icon";
+import Input from "./components/shared/Input";
 
 function App() {
   const expenses = [
@@ -21,7 +23,26 @@ function App() {
   ];
 
   return (
-    <ExpensesList expenses={expenses} />
+    <div>
+      <Input
+        name="expense"
+        value=""
+        placeholder="Enter new expense..."
+        icon={"dollar"}
+      />
+      <Input
+        name="expense"
+        value=""
+        placeholder="Enter new expense..."
+        icon={"calendar"}
+      />
+      <Input
+        name="expense"
+        value=""
+        placeholder="Enter new expense..."
+        icon={"pen"}
+      />
+    </div>
   );
 }
 
