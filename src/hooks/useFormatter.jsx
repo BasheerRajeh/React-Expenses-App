@@ -12,7 +12,7 @@ function useFormatter(locale = "en-US") {
 
     function formatDate(date) {
         const [monthName, year, day] = moment(date)
-            .format("MMMM YYYY DD")
+            .format("MMM YYYY DD")
             .split(" ");
         return [monthName, year, day];
     }

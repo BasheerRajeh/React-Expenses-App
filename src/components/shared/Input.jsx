@@ -3,7 +3,7 @@ import "./Input.css";
 
 const Input = ({
     name,
-    value,
+    value = "",
     label,
     onChange,
     type = "text",
