@@ -2,95 +2,115 @@ import { useEffect, useState } from "react";
 import Chart from "./components/Chart/Chart";
 import ExpenseNew from "./components/Expenses/ExpenseNew";
 import ExpensesList from "./components/Expenses/ExpensesList";
-import useFormatter from "./hooks/useFormatter";
 
 function App() {
-  const { formatDate } = useFormatter();
   const [expenses, setExpenses] = useState([
     {
-      title: "Consectetur adipiscing elit.",
-      date: new Date(2021, 5, 15),
-      price: 1500,
+      title: "Groceries",
+      date: new Date(2022, 2, 15),
+      price: 55.67,
     },
     {
-      title: "Sed do eiusmod tempor incididunt.",
-      date: new Date(2022, 1, 10),
-      price: 3000,
+      title: "Internet Bill",
+      date: new Date(2022, 2, 20),
+      price: 80.99,
     },
     {
-      title: "Ut labore et dolore magna aliqua.",
-      date: new Date(2022, 8, 20),
-      price: 1000,
+      title: "Gas Bill",
+      date: new Date(2022, 2, 22),
+      price: 35.42,
+    },
+    {
+      title: "Eating Out",
+      date: new Date(2022, 2, 25),
+      price: 45.35,
+    },
+    {
+      title: "Movie Tickets",
+      date: new Date(2022, 2, 27),
+      price: 30.0,
+    },
+    {
+      title: "Shopping",
+      date: new Date(2022, 3, 5),
+      price: 120.75,
+    },
+    {
+      title: "Transportation",
+      date: new Date(2022, 3, 10),
+      price: 25.0,
+    },
+    {
+      title: "Gym Membership",
+      date: new Date(2022, 3, 15),
+      price: 50.0,
+    },
+    {
+      title: "Phone Bill",
+      date: new Date(2022, 3, 20),
+      price: 75.0,
     },
   ]);
 
-  const [charts, setCharts] = useState([
-    { label: "January", value: 0 },
-    { label: "February", value: 0 },
-    { label: "March", value: 0 },
-    { label: "April", value: 0 },
-    { label: "May", value: 0 },
-    { label: "June", value: 0 },
-    { label: "July", value: 0 },
-    { label: "August", value: 0 },
-    { label: "September", value: 0 },
-    { label: "October", value: 0 },
-    { label: "Novembre", value: 0 },
-    { label: "December", value: 0 },
+  const [chartData, setChartData] = useState([
+    { id: 1, label: "January", value: 0 },
+    { id: 2, label: "February", value: 0 },
+    { id: 3, label: "March", value: 0 },
+    { id: 4, label: "April", value: 0 },
+    { id: 5, label: "May", value: 0 },
+    { id: 6, label: "June", value: 0 },
+    { id: 7, label: "July", value: 0 },
+    { id: 8, label: "August", value: 0 },
+    { id: 9, label: "September", value: 0 },
+    { id: 10, label: "October", value: 0 },
+    { id: 11, label: "Novembre", value: 0 },
+    { id: 12, label: "December", value: 0 },
   ]);
 
   useEffect(() => {
-    fill(expenses);
+    const data = expenses.map((ex) => {
+      const id = getExpenseMonth(ex);
+      const value = ex.price;
+      const obj = { id: id, value: value };
+      return obj;
+    });
+
+    initialChart(data, chartData);
   }, []);
 
-  const fill = () => {
-    setCharts((prev) => {
-      const newCharts = [
-        { label: "January", value: 0 },
-        { label: "February", value: 0 },
-        { label: "March", value: 0 },
-        { label: "April", value: 0 },
-        { label: "May", value: 0 },
-        { label: "June", value: 0 },
-        { label: "July", value: 0 },
-        { label: "August", value: 0 },
-        { label: "September", value: 0 },
-        { label: "October", value: 0 },
-        { label: "Novembre", value: 0 },
-        { label: "December", value: 0 },
+  const initialChart = (data, chartData) => {
+    const newCharts = data.reduce((charts, data) => {
+      const id = data.id
+      const value = parseFloat(charts[id].value) + parseFloat(data.value);
+      return [
+        ...charts.slice(0, id),
+        { label: charts[id].label, value },
+        ...charts.slice(id + 1),
       ];
-      for (let expense of expenses) {
-        let value =
-          parseFloat(newCharts[new Date(expense.date).getMonth()].value) +
-          parseFloat(expense.price);
-        newCharts[new Date(expense.date).getMonth()] = {
-          label: newCharts[new Date(expense.date).getMonth()].label,
-          value: value,
-        };
-      }
-      return newCharts;
-    });
+    }, chartData);
+    setChartData(newCharts);
   };
 
-  const refill = (month, price) => {
-    setCharts((prev) => {
-      const newCharts = [...prev];
-      newCharts[month].value += parseFloat(price);
-      return newCharts;
-    });
+  const updateChart = (chartData, id, value) => {
+    const newCharts = [...chartData];
+    newCharts[id].value += parseFloat(value);
+    setChartData(newCharts);
+    return newCharts;
   };
+
+  const getExpenseMonth = (expense) => new Date(expense.date).getMonth();
 
   const handleAdd = (newExpense) => {
-    setExpenses((prev) => {
-      const newExpenses = [newExpense, ...prev];
-      refill(new Date(newExpense.date).getMonth(), newExpense.price);
+    setExpenses((prevExpenses) => {
+      const newExpenses = [newExpense, ...prevExpenses];
+      updateChart(chartData, getExpenseMonth(newExpense), newExpense.price);
       return newExpenses;
     });
   };
 
   return (
-    <div style={{ width: "50vw", margin: '0 auto' }}>
-      <Chart bars={charts} />
+    <div style={{ width: "50vw", margin: "0 auto" }}>
+      <Chart data={chartData} />
       <ExpenseNew onAdd={handleAdd} />
       <ExpensesList expenses={expenses} />
     </div>
