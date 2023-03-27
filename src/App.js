@@ -83,13 +83,13 @@ function App() {
   const handleAdd = (newExpense) => {
     setExpenses((prev) => {
       const newExpenses = [newExpense, ...prev];
-      refill(new Date(newExpense.date).getMonth() - 1, newExpense.price);
+      refill(new Date(newExpense.date).getMonth(), newExpense.price);
       return newExpenses;
     });
   };
 
   return (
-    <div style={{ height: "50vh" }}>
+    <div style={{ width: "50vw", margin: '0 auto' }}>
       <Chart bars={charts} />
       <ExpenseNew onAdd={handleAdd} />
       <ExpensesList expenses={expenses} />
