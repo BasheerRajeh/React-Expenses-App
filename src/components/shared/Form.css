@@ -1,0 +1,45 @@
+.form-group-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    outline: 0;
+    width: 20rem;
+    white-space: nowrap;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    font-weight: 400;
+    transition: all 0.2s ease-in;
+    font-size: 2rem;
+    border: 2px solid var(--color-heading);
+    cursor: pointer;
+}
+
+.btn--primary {
+    background: var(--color-heading);
+    color: var(--color-secondary);
+}
+
+.btn--primary:hover {
+    background: var(--color-body);
+    color: var(--color-heading);
+}
+
+.btn--secondary {
+    background: var(--color-secondary);
+    color: var(--color-heading);
+}
+
+.btn--secondary:hover {
+    background: var(--color-heading);
+    color: var(--color-secondary);
+}
+
+.btn:disabled {
+    cursor: no-drop;
+    background: #2323;
+    color: #cdcd;
+    border: 2px solid #cdcd;
+}

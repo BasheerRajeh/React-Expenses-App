@@ -1,5 +1,6 @@
 import React from "react";
 import "./ChartBar.css";
+
 const ChartBar = ({ label, maxValue, value }) => {
     const fill = Math.ceil((value / maxValue) * 100);
     return (

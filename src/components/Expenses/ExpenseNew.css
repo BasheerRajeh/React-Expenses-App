@@ -1,5 +1,6 @@
 .expense-new {
     margin-bottom: 1rem;
+    padding: 1rem;
     background: var(--color-primary);
     transition: height 0.5s ease-in;
 }
@@ -33,22 +34,22 @@
     cursor: pointer;
 }
 
-.btn--add {
+.btn--submit {
     background: var(--color-heading);
     color: var(--color-primary);
 }
 
-.btn--add:hover {
+.btn--submit:hover {
     background: var(--color-secondary);
     color: var(--color-heading);
 }
 
-.btn--cls {
+.btn--reset {
     background: var(--color-primary);
     color: var(--color-heading);
 }
 
-.btn--cls:hover {
+.btn--reset:hover {
     background: var(--color-heading);
     color: var(--color-secondary);
 }

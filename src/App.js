@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import Chart from "./components/Chart/Chart";
-import ChartBar from "./components/Chart/ChartBar";
 import ExpenseNew from "./components/Expenses/ExpenseNew";
 import ExpensesList from "./components/Expenses/ExpensesList";
-import Card from "./components/shared/Card";
-import Icon from "./components/shared/Icon";
-import Input from "./components/shared/Input";
 import useFormatter from "./hooks/useFormatter";
 
 function App() {

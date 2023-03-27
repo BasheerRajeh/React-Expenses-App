@@ -1,47 +1,32 @@
 import Icon from "./Icon";
 import "./Input.css";
 
-const Input = ({
-    name,
-    value = "",
-    label,
-    onChange,
-    type = "text",
-    error,
-    placeholder = "",
-    icon,
-    ...rest
-}) => {
+const Input = ({ name, value, label, icon, error, ...rest }) => {
     return (
-        <div className="input-group">
-            <label
-                htmlFor={name}
-                className="input-group__label"
-                hidden={label ? false : true}
-            >
-                {label ? label : ""}
+        <div className="form-group">
+            <label className="form-group__label" htmlFor={name}>
+                {label}
             </label>
-            <div className="group-input">
+            <div className="form-control-group">
                 {icon && (
-                    <span className="group-input__icon">
+                    <span className="form-control__icon">
                         <Icon icon={icon} />
                     </span>
                 )}
                 <input
-                    type={type}
-                    id={name}
-                    name={name}
-                    value={value}
-                    placeholder={placeholder}
-                    className={`group-input__input ${error ? 'group-input__input__err' : ''}`}
-                    onChange={onChange}
-                    autoComplete="off"
                     {...rest}
+                    name={name}
+                    id={name}
+                    value={value || ""}
+                    autoComplete="off"
+                    className="form-control"
+                    style={{
+                        background: `${error ? "#b4b7ba" : ""}`,
+                        color: `${error ? "#fff" : ""}`,
+                    }}
                 />
             </div>
-            {error && (
-                <div className={`input__error`}>{error}</div>
-            )}
+            {error && <div className="alert alert-danger">{error}</div>}
         </div>
     );
 };

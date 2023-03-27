@@ -6,7 +6,7 @@ import "./Chart.css";
 const Chart = ({ bars }) => {
     let maxValue = 0;
     for (let bar of bars) {
-        maxValue = bar.value > maxValue ? bar.value : maxValue;
+        maxValue = Math.max(maxValue, bar.value);
     }
 
     return (
