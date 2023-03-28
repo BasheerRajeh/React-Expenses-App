@@ -1,6 +1,5 @@
 .expense {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     color: var(--color-heading);
@@ -27,10 +26,6 @@
 }
 
 @media screen and (min-width: 768px) {
-    .expense {
-        flex-direction: row;
-    }
-
     .expense__title {
         padding: 1rem 1rem;
     }

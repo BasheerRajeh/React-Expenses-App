@@ -1,9 +1,9 @@
 import Icon from "./Icon";
 import "./Input.css";
 
-const Input = ({ name, value, label, icon, error, ...rest }) => {
+const Input = ({ type, name, value, label, className, options, icon, error, ...rest }) => {
     return (
-        <div className="form-group">
+        <div className={`form-group ${className}`}>
             <label className="form-group__label" htmlFor={name}>
                 {label}
             </label>
@@ -13,8 +13,9 @@ const Input = ({ name, value, label, icon, error, ...rest }) => {
                         <Icon icon={icon} />
                     </span>
                 )}
-                <input
+                {type !== "select" ? <input
                     {...rest}
+                    type={type}
                     name={name}
                     id={name}
                     value={value || ""}
@@ -24,7 +25,27 @@ const Input = ({ name, value, label, icon, error, ...rest }) => {
                         background: `${error ? "#b4b7ba" : ""}`,
                         color: `${error ? "#fff" : ""}`,
                     }}
-                />
+                /> :
+                    <select
+                        {...rest}
+                        type={type}
+                        name={name}
+                        id={name}
+                        value={value || ""}
+                        autoComplete="off"
+                        className="form-control"
+                        style={{
+                            background: `${error ? "#b4b7ba" : ""}`,
+                            color: `${error ? "#fff" : ""}`,
+                        }}
+                    >
+                        {options.map((year) => (
+                            <option key={year.value} value={year.value}>
+                                {year.label}
+                            </option>
+                        ))}
+                    </select>
+                }
             </div>
             {error && <div className="alert alert-danger">{error}</div>}
         </div>

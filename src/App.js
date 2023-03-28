@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
+import _ from "lodash";
 import Chart from "./components/Chart/Chart";
 import ExpenseNew from "./components/Expenses/ExpenseNew";
+import ExpenseSearch from "./components/Expenses/ExpenseSearch";
 import ExpensesList from "./components/Expenses/ExpensesList";
+import useFormatter from "./hooks/useFormatter";
 
 function App() {
   const [expenses, setExpenses] = useState([
@@ -67,6 +70,12 @@ function App() {
     { id: 12, label: "December", value: 0 },
   ]);
 
+  const { formatDate } = useFormatter();
+
+  const [query, setQuery] = useState("");
+
+  const [year, setYear] = useState("");
+
   useEffect(() => {
     const data = expenses.map((ex) => {
       const id = getExpenseMonth(ex);
@@ -80,7 +89,7 @@ function App() {
 
   const initialChart = (data, chartData) => {
     const newCharts = data.reduce((charts, data) => {
-      const id = data.id
+      const id = data.id;
       const value = parseFloat(charts[id].value) + parseFloat(data.value);
       return [
         ...charts.slice(0, id),
@@ -108,11 +117,61 @@ function App() {
     });
   };
 
+  const maxYear = formatDate(
+    _.maxBy(expenses, (o) => {
+      return formatDate(o.date)[1];
+    }).date
+  )[1];
+
+  const minYear = formatDate(
+    _.minBy(expenses, (o) => {
+      return formatDate(o.date)[1];
+    }).date
+  )[1];
+
+  const years = [
+    {
+      label: "All",
+      value: "All",
+    },
+  ];
+
+  for (let year = minYear; year <= maxYear; year++) {
+    years.push({ value: year, label: year.toString() });
+  }
+
+  const handleSearch = (query) => {
+    setQuery(query.toLowerCase());
+  };
+
+  const handleFilter = (year) => {
+    setYear(year);
+  };
+
+  const filteredByYearExpenses =
+    year === "All" || year === ""
+      ? expenses
+      : _.filter(
+        expenses,
+        (expense) => formatDate(expense.date)[1] === year
+      );
+
+  const filteredExpenses = query
+    ? _.filter(filteredByYearExpenses, (expense) =>
+      _.includes(expense.title.toLowerCase(), query)
+    )
+    : filteredByYearExpenses;
+
   return (
-    <div style={{ width: "50vw", margin: "0 auto" }}>
+    <div >
       <Chart data={chartData} />
       <ExpenseNew onAdd={handleAdd} />
-      <ExpensesList expenses={expenses} />
+      <ExpenseSearch
+        filter={years}
+        onSearch={handleSearch}
+        onFilter={handleFilter}
+      />
+      <ExpensesList expenses={filteredExpenses} />
     </div>
   );
 }

@@ -1,3 +1,8 @@
+.form--online {
+    display: flex;
+    justify-content: space-between;
+}
+
 .form-group-btns {
     display: flex;
     gap: 1rem;

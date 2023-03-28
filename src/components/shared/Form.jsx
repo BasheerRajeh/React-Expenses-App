@@ -1,9 +1,9 @@
-import React, { useState } from "react";
 import Joi from "joi-browser";
+import React, { useEffect, useState } from "react";
 import Input from "./Input";
 import "./Form.css";
 
-const Form = ({ inputs, schema, onSubmit }) => {
+const Form = ({ inputs, schema, onSubmit, onChange, ...rest }) => {
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
 
@@ -68,21 +68,29 @@ const Form = ({ inputs, schema, onSubmit }) => {
         );
     };
 
+    useEffect(() => {
+        if (onChange) {
+            onChange(data);
+        }
+    }, [data, onChange]);
+
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} {...rest}>
             {inputs.map(renderInput)}
-            <div className="form-group-btns">
-                <button className="btn btn--primary" disabled={validate()}>
-                    Submit
-                </button>
-                <button
-                    type="reset"
-                    className="btn btn--secondary"
-                    onClick={handleReset}
-                >
-                    Reset
-                </button>
-            </div>
+            {!onChange && (
+                <div className="form-group-btns">
+                    <button className="btn btn--primary" disabled={validate()}>
+                        Submit
+                    </button>
+                    <button
+                        type="reset"
+                        className="btn btn--secondary"
+                        onClick={handleReset}
+                    >
+                        Reset
+                    </button>
+                </div>
+            )}
         </form>
     );
 };
