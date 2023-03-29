@@ -5,9 +5,10 @@ import ExpenseNew from "./components/Expenses/ExpenseNew";
 import ExpenseSearch from "./components/Expenses/ExpenseSearch";
 import ExpensesList from "./components/Expenses/ExpensesList";
 import useFormatter from "./hooks/useFormatter";
+import './App.css'
 
-function App() {
-  const [expenses, setExpenses] = useState([
+const App = () => {
+  const initialExpenses = [
     {
       title: "Groceries",
       date: new Date(2022, 2, 15),
@@ -53,9 +54,10 @@ function App() {
       date: new Date(2022, 3, 20),
       price: 75.0,
     },
-  ]);
+  ];
 
-  const [chartData, setChartData] = useState([
+  const initialChartData = [
+    // chart data
     { id: 1, label: "January", value: 0 },
     { id: 2, label: "February", value: 0 },
     { id: 3, label: "March", value: 0 },
@@ -68,26 +70,25 @@ function App() {
     { id: 10, label: "October", value: 0 },
     { id: 11, label: "Novembre", value: 0 },
     { id: 12, label: "December", value: 0 },
-  ]);
 
+  ];
+
+  const [expenses, setExpenses] = useState(initialExpenses);
+  const [chartData, setChartData] = useState(initialChartData);
   const { formatDate } = useFormatter();
-
   const [query, setQuery] = useState("");
-
   const [year, setYear] = useState("");
 
   useEffect(() => {
-    const data = expenses.map((ex) => {
-      const id = getExpenseMonth(ex);
-      const value = ex.price;
-      const obj = { id: id, value: value };
-      return obj;
-    });
-
-    initialChart(data, chartData);
+    updateChartData(expenses);
   }, []);
 
-  const initialChart = (data, chartData) => {
+  const updateChartData = (expensesData) => {
+    const data = expensesData.map((ex) => ({
+      id: getExpenseMonth(ex),
+      value: ex.price,
+    }));
+
     const newCharts = data.reduce((charts, data) => {
       const id = data.id;
       const value = parseFloat(charts[id].value) + parseFloat(data.value);
@@ -96,15 +97,9 @@ function App() {
         { label: charts[id].label, value },
         ...charts.slice(id + 1),
       ];
-    }, chartData);
-    setChartData(newCharts);
-  };
+    }, initialChartData);
 
-  const updateChart = (chartData, id, value) => {
-    const newCharts = [...chartData];
-    newCharts[id].value += parseFloat(value);
     setChartData(newCharts);
-    return newCharts;
   };
 
   const getExpenseMonth = (expense) => new Date(expense.date).getMonth();
@@ -112,33 +107,22 @@ function App() {
   const handleAdd = (newExpense) => {
     setExpenses((prevExpenses) => {
       const newExpenses = [newExpense, ...prevExpenses];
-      updateChart(chartData, getExpenseMonth(newExpense), newExpense.price);
+      updateChartData(newExpenses);
       return newExpenses;
     });
   };
 
   const maxYear = formatDate(
-    _.maxBy(expenses, (o) => {
-      return formatDate(o.date)[1];
-    }).date
+    _.maxBy(expenses, (o) => formatDate(o.date)[1]).date
   )[1];
-
   const minYear = formatDate(
-    _.minBy(expenses, (o) => {
-      return formatDate(o.date)[1];
-    }).date
+    _.minBy(expenses, (o) => formatDate(o.date)[1]).date
   )[1];
 
-  const years = [
-    {
-      label: "All",
-      value: "All",
-    },
-  ];
-
-  for (let year = minYear; year <= maxYear; year++) {
-    years.push({ value: year, label: year.toString() });
-  }
+  const years = Array.from({ length: maxYear - minYear + 1 }, (_, i) => ({
+    value: i + Number(minYear),
+    label: (i + Number(minYear)).toString(),
+  })).concat({ label: "All", value: "All" });
 
   const handleSearch = (query) => {
     setQuery(query.toLowerCase());
@@ -148,22 +132,15 @@ function App() {
     setYear(year);
   };
 
-  const filteredByYearExpenses =
-    year === "All" || year === ""
-      ? expenses
-      : _.filter(
-        expenses,
-        (expense) => formatDate(expense.date)[1] === year
-      );
-
-  const filteredExpenses = query
-    ? _.filter(filteredByYearExpenses, (expense) =>
-      _.includes(expense.title.toLowerCase(), query)
+  const filteredExpenses = expenses
+    .filter(
+      (expense) =>
+        year === "All" || year === "" || formatDate(expense.date)[1] === year
     )
-    : filteredByYearExpenses;
+    .filter((expense) => !query || expense.title.toLowerCase().includes(query));
 
   return (
-    <div >
+    <div className="container">
       <Chart data={chartData} />
       <ExpenseNew onAdd={handleAdd} />
       <ExpenseSearch
@@ -174,6 +151,6 @@ function App() {
       <ExpensesList expenses={filteredExpenses} />
     </div>
   );
-}
+};
 
 export default App;

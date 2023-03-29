@@ -57,7 +57,12 @@ const ExpenseNew = ({ onAdd }) => {
     return (
         <Card className={"expense-new"}>
             {clicked ? (
-                <Form inputs={inputs} schema={schema} onSubmit={handleSubmit} />
+                <Form
+                    inputs={inputs}
+                    schema={schema}
+                    onSubmit={handleSubmit}
+                    onCancle={() => setClicked(false)}
+                />
             ) : (
                 <div className="form-group-btns">
                     <button className="btn btn--primary" onClick={handleClick}>

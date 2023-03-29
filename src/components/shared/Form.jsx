@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Input from "./Input";
 import "./Form.css";
 
-const Form = ({ inputs, schema, onSubmit, onChange, ...rest }) => {
+const Form = ({ inputs, schema, onSubmit, onChange, onCancle, ...rest }) => {
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
 
@@ -50,6 +50,7 @@ const Form = ({ inputs, schema, onSubmit, onChange, ...rest }) => {
         e.preventDefault();
         setErrors({});
         setData({});
+        onCancle();
     };
 
     const renderInput = (input) => {
@@ -87,7 +88,7 @@ const Form = ({ inputs, schema, onSubmit, onChange, ...rest }) => {
                         className="btn btn--secondary"
                         onClick={handleReset}
                     >
-                        Reset
+                        Cancel
                     </button>
                 </div>
             )}
