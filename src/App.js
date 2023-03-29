@@ -80,7 +80,7 @@ const App = () => {
   const [year, setYear] = useState("");
 
   useEffect(() => {
-    updateChartData(expenses);
+    updateChartData(initialExpenses);
   }, []);
 
   const updateChartData = (expensesData) => {

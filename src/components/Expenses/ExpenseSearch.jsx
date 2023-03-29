@@ -1,6 +1,5 @@
 import React from "react";
 import Joi from "joi-browser";
-import _ from "lodash";
 import Form from "./../shared/Form";
 import Card from "../shared/Card";
 import "./ExpenseSearch.css";

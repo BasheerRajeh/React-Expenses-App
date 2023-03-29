@@ -1,5 +1,5 @@
 import Joi from "joi-browser";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Input from "./Input";
 import "./Form.css";
 
@@ -69,14 +69,12 @@ const Form = ({ inputs, schema, onSubmit, onChange, onCancle, ...rest }) => {
         );
     };
 
-    useEffect(() => {
-        if (onChange) {
-            onChange(data);
-        }
-    }, [data, onChange]);
+    const handleFormChange = () => {
+        if (onChange) onChange(data);
+    };
 
     return (
-        <form onSubmit={handleSubmit} {...rest}>
+        <form onSubmit={handleSubmit} onChange={handleFormChange} {...rest}>
             {inputs.map(renderInput)}
             {!onChange && (
                 <div className="form-group-btns">
